@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model City {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Volunteer Volunteer[]
+}
+
+model Town {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Volunteer Volunteer[]
+}
+
+model Street {
+  id        String      @id @default(uuid())
+  name      String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Volunteer Volunteer[]
+}
+
+model Volunteer {
+  id               String   @id @default(uuid())
+  imageUrl         String
+  name             String
+  gender           String
+  age              Int
+  phoneNumber      Int
+  email            String
+  cityId           String
+  city             City     @relation(fields: [cityId], references: [id])
+  townId           String
+  town             Town     @relation(fields: [townId], references: [id])
+  streetId         String
+  street           Street   @relation(fields: [streetId], references: [id])
+  dateOfGraduation String
+  specialty        String
+  degree           String
+  code             String
+  dateOfServe      String
+  income           String
+  placeOfWork      String
+  member           String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([cityId])
+  @@index([townId])
+  @@index([streetId])
+}
